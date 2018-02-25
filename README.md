@@ -6,6 +6,9 @@ This allows you to have different extensions and preferences for each version.
 
 **THIS TOOL WILL CREATE A `code` SHORTCUT AND OVERRIDE YOUR DEFAULT `code` SHORTCUT**
 
+This is only tested on Node.js 8 and 9. We cannot guarantee it on earlier
+Node.js versions.
+
 Installing
 -----------------------
 

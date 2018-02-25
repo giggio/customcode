@@ -1,0 +1,11 @@
+dist: trusty
+sudo: false
+language: node_js
+node_js:
+  - '8'
+  - '9'
+os:
+  - linux
+  - osx
+install: "npm install"
+script: "npm test"
