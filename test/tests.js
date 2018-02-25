@@ -1,5 +1,5 @@
-const { checkForCode, normalizeForWindows, getCodeFromPathEnv, findCode } = require("../main");
-const { consoleLogger } = require("../consoleLogger");
+const { checkForCode, normalizeForWindows, getCodeFromPathEnv, findCode } = require("../lib/code");
+const { consoleLogger } = require("../lib/consoleLogger");
 const { tmpdir } = require("os");
 const { mkdtempSync } = require("fs");
 const { mkdirSync } = (fs = require("fs"));

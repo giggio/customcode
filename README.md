@@ -1,4 +1,7 @@
 # Custom Code
+[![Build
+status](https://travis-ci.org/giggio/customcode.svg)](https://travis-ci.org/giggio/customcode/)
+[![Build status](https://ci.appveyor.com/api/projects/status/i7iohiwqak1933m9?svg=true)](https://ci.appveyor.com/project/giggio/customcode)
 
 A tool to help run a different VS Code version for each project.
 
