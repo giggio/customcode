@@ -1,0 +1,1 @@
+require('chai/register-should');

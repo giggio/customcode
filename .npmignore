@@ -1,0 +1,4 @@
+test
+*.tgz
+.editorconfig
+.eslintrc.json
