@@ -2,3 +2,5 @@ test
 *.tgz
 .editorconfig
 .eslintrc.json
+.travis.yml
+appveyor.yml
