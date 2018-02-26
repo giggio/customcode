@@ -9,6 +9,7 @@ const { sync: mkdirp } = require("mkdirp");
 
 describe("customcode that touches the fs, env.path and cwd", () => {
     let tempdir, cwd, envPath;
+    const isTravisOnAMac = process.env.TRAVIS_OS_NAME === "osx";
     before(() => {});
     beforeEach(() => {
         envPath = process.env.PATH;
@@ -84,7 +85,8 @@ describe("customcode that touches the fs, env.path and cwd", () => {
             process.chdir(cwdDir);
             const [codeFound, codePath] = findCode();
             codeFound.should.be.true;
-            codePath.should.equal(codeTempFile);
+            if (isTravisOnAMac) codePath.should.endWith(codeTempFile); // travis adds /private to the base dir
+            else codePath.should.equal(codeTempFile);
         });
     });
 });
