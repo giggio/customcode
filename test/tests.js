@@ -60,7 +60,8 @@ describe("customcode that touches the fs, env.path and cwd", () => {
             process.env.PATH = `${newCodeTempDir}${path.delimiter}${originalCodeTempDir}`;
             const [codeFound, codePath] = getCodeFromPathEnv();
             codeFound.should.be.true;
-            codePath.should.equal(originalCodeTempFile);
+            if (isTravisOnAMac) codePath.should.endWith(originalCodeTempFile); // travis adds /private to the base dir
+            else codePath.should.equal(originalCodeTempFile);
         });
         it("finds only one code in path", () => {
             const newCodeTempDir = path.join(tempdir, "codenew");
