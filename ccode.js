@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { findCode, runCode } = require("./lib/code");
+const { findCode, runCode } = require('./lib/code');
 
 function main() {
     const [codeFound, codePath] = findCode();

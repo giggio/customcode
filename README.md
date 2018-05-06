@@ -4,15 +4,17 @@ status](https://travis-ci.org/giggio/customcode.svg)](https://travis-ci.org/gigg
 [![Build status](https://ci.appveyor.com/api/projects/status/i7iohiwqak1933m9?svg=true)](https://ci.appveyor.com/project/giggio/customcode)
 [![npm](https://img.shields.io/npm/dt/customcode.svg)](https://www.npmjs.com/package/customcode)
 
-A tool to help run a different VS Code version for each project.
+A tool to help run a custom VS Code for each project. This allows you to have
+different user settings and different extensions for each instance.
+
+So, for example, if you are working on an Angular project you use only Angular extensions,
+and if you later work on a React project, you use React extensions.
 
 Multiplatform. Tested on Windows and Linux. Node.js based.
 
 This allows you to have different extensions and preferences for each version.
 
-**THIS TOOL WILL CREATE A `code` SHORTCUT AND OVERRIDE YOUR DEFAULT `code` SHORTCUT**
-
-This is only tested on Node.js 8 and 9. We cannot guarantee it on earlier
+This is only tested on Node.js 8 and 10. We cannot guarantee it on other
 Node.js versions.
 
 Installing
@@ -31,12 +33,15 @@ npm install -g
 Using
 -----------------------
 
-Simply run `code` on any directory and it will search for the custom VS Code and
+Simply run `ccode` on any directory and it will search for the custom VS Code and
 launch it:
 
 ```shell
-code .
+ccode .
 ```
+
+You should use `ccode` as you always used `code`. If a custom code is found than
+it will be launched, otherwise your system `code` will launch.
 
 To create a custom code (preview) run:
 
@@ -44,12 +49,14 @@ To create a custom code (preview) run:
 create-custom-code <destination-directory>
 ```
 
+This will create a `.code` directory on the specified directory.
+
 How this tool works
 -----------------------
 
-We search  for `code/code` (or `code\code.cmd` for Windows) from the current
+We search  for `code/ccode` (or `code\ccode.cmd` for Windows) from the current
 working directory (cwd) all the way up to the root directory (`/` or usually
-`c:\` on Windows). This is your custom VS Code, with our custom options and
+`c:\` on Windows). This is your custom VS Code, with your custom options and
 extensions.
 
 If a custom VS Code is not found we will search your `PATH` environment variable
@@ -62,63 +69,47 @@ For example, supose your cwd is `/home/user/projects/foo/bar/` and you type on
 your terminal:
 
 ```bash
-~/projects/foo/bar $ code .
+~/projects/foo/bar $ ccode .
 ```
 
 We will search for:
 
 ```
-/home/user/projects/foo/bar/code/code
-/home/user/projects/foo/code/code
-/home/user/projects/code/code
-/home/user/code/code
-/home/code/code
-/code/code
+/home/user/projects/foo/bar/.code/ccode
+/home/user/projects/foo/.code/ccode
+/home/user/projects/.code/ccode
+/home/user/.code/ccode
+/home/.code/ccode
+/.code/ccode
 ```
 
-Let's say `/home/user/projects/foo/code/code` is found, we will then launch:
+Let's say `/home/user/projects/foo/.code/ccode` is found, we will then launch:
 
 ```
-/home/user/projects/foo/code/code .
+/home/user/projects/foo/.code/ccode .
 ```
 
-Using `/home/user/projects/foo/bar/code/code` as the current working directory.
+Using `/home/user/projects/foo/bar/` as the current working directory.
 
-How this tool finds VS Code on your env PATH
-------------
-
-We are assuming that your npm bin path is coming before your VS Code path, so we
-assume that the first `code` (or `code.cmd` for Windows) that we find is this
-tool and the second one is the real VS Code. We will then launch the second one.
-
-If only one `code` is found we will assume it is is this tool and that you don't
-have VS Code install and fail with an error message.
-
-Creating a custom VS Code instalation (preview)
+Creating a custom VS Code instalation
 -----------------------
 
 A custom VS Code simply sets the user data dir and the extensions dir to a
 different location. This is what this tool does. It creates the `code`
 (`code.cmd` for Windows) and its subdirectories.
 
-To use it simply type `create-custom-code` which defaults to current working
-directory or `create-custom-code <destionation-directory>` to create in another folder. The
-destination directory (either `cwd` or `<directory>` above) will receive a new
-`code` directory and a `code` (or `code.cmd`) with the correct configuration.
-Extensions will be installed on `code/extensionsdir` and settings and other
-configurations will go on `code/userdatadir`.
+To use it simply type `create-custom-code <directory>` to create a custom code
+in that directory. The destination directory (`<directory>` above) will receive
+a new `code` directory and a `ccode` (or `ccode.cmd`) with the correct
+configuration. Extensions will be installed on `.code/extensionsdir` and
+settings and other configurations will go on `.code/userdatadir`.
 
-This custom code installation will work seamlessly with the `code` tool.
+This custom code installation will work seamlessly with the `ccode` tool.
 
 Troubleshooting
 ------------
 
-If we can't find your original `code` then the first thing to do is check your
-`PATH` env var and make sure that it's path is there. Also, make sure that the
-Node.js bin path shows up before the VS Code path. You can find Node.js's bin
-path by running `npm bin -g`.
-
-If your custom VS Code is not running then check your `code` (or `code.cmd`)
+If your custom VS Code is not running then check your `ccode` (or `ccode.cmd`)
 script. We are not responsible for it.
 
 If you find any problems, open an issue on Github

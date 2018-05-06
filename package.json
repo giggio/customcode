@@ -1,12 +1,12 @@
 {
   "name": "customcode",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A way to use a custom VS Code for each project.",
   "scripts": {
     "test": "mocha --require ./test/_startup.js"
   },
   "bin": {
-    "code": "./main.js",
+    "ccode": "./ccode.js",
     "create-custom-code": "./create-custom-code.js"
   },
   "keywords": [
@@ -29,9 +29,9 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
-    "eslint": "^4.18.1",
+    "eslint": "^4.19.1",
     "mkdirp": "^0.5.1",
-    "mocha": "^5.0.1",
+    "mocha": "^5.1.1",
     "rimraf": "^2.6.2"
   }
 }
