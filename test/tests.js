@@ -2,7 +2,7 @@ const { searchCode, normalizeForWindows, getCodeFromPathEnv, findCode, codeDirNa
 const { createCodeDir, createCustomCodeFile, createCustomCode } = require('../lib/create');
 const { consoleLogger } = require('../lib/consoleLogger');
 const { tmpdir } = require('os');
-const { mkdtempSync, mkdirSync, existsSync } = require('fs');
+const { mkdtempSync, existsSync } = require('fs');
 const fs = require('fs');
 const path = require('path');
 const { sync: rimraf } = require('rimraf');
@@ -36,7 +36,7 @@ describe('customcode that touches the fs, env.path and cwd', () => {
         });
         it(`should find ${ccodeBinName} when it exists`, () => {
             const codeTempPath = path.join(tempdir, 'shouldfind');
-            mkdirSync(codeTempPath);
+            mkdirp(codeTempPath);
             const codeTempFile = normalizeForWindows(path.join(codeTempPath, ccodeBinName));
             fs.closeSync(fs.openSync(codeTempFile, 'w'));
             const [codeFound] = searchCode(codeTempPath, ccodeBinName);
@@ -52,7 +52,7 @@ describe('customcode that touches the fs, env.path and cwd', () => {
         });
         it('finds code in path when code script is in PATH', () => {
             const newCodeTempDir = path.join(tempdir, 'codenew');
-            mkdirSync(newCodeTempDir);
+            mkdirp(newCodeTempDir);
             const newCodeTempFile = normalizeForWindows(path.join(newCodeTempDir, codeBinName));
             fs.closeSync(fs.openSync(newCodeTempFile, 'w'));
             process.env.PATH = `${newCodeTempDir}`;
@@ -63,7 +63,7 @@ describe('customcode that touches the fs, env.path and cwd', () => {
         });
         it('does not find code when not in path', () => {
             const newCodeTempDir = path.join(tempdir, 'codenew');
-            mkdirSync(newCodeTempDir);
+            mkdirp(newCodeTempDir);
             process.env.PATH = `${newCodeTempDir}`;
             const [codeFound] = getCodeFromPathEnv();
             consoleLogger.redirectedConsole.warn[0].should.equal('Code not found.');
@@ -87,6 +87,13 @@ describe('customcode that touches the fs, env.path and cwd', () => {
         });
     });
     describe('create-custom-code', () => {
+        before(() => {
+            const newCodeTempDir = path.join(tempdir, 'create-custom-code-original-code');
+            mkdirp(newCodeTempDir);
+            const newCodeTempFile = normalizeForWindows(path.join(newCodeTempDir, codeBinName));
+            fs.closeSync(fs.openSync(newCodeTempFile, 'w'));
+            process.env.PATH = newCodeTempDir;
+        });
         it(`creates code dir in ${codeDirName}`, () => {
             const cwdIntermediaryTempDir = path.join(tempdir, 'createcodedir');
             mkdirp(cwdIntermediaryTempDir);
@@ -101,7 +108,8 @@ describe('customcode that touches the fs, env.path and cwd', () => {
         it('creates code file', () => {
             const cwdIntermediaryTempDir = path.join(tempdir, 'createcodefile');
             mkdirp(cwdIntermediaryTempDir);
-            createCustomCodeFile(cwdIntermediaryTempDir);
+            const created = createCustomCodeFile(cwdIntermediaryTempDir);
+            created.should.be.true;
             const codeFile = normalizeForWindows(path.resolve(cwdIntermediaryTempDir, ccodeBinName));
             expect(existsSync(codeFile), `File ${codeFile} does not exist`).to.be.true;
         });
