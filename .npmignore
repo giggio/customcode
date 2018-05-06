@@ -4,3 +4,4 @@ test
 .eslintrc.json
 .travis.yml
 appveyor.yml
+.prettierrc.json
