@@ -29,7 +29,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.16.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
     "rimraf": "^2.6.2"
